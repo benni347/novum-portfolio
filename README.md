@@ -1,2 +1,2 @@
-# neo-portfolio
+# novum portfolio
 My new and improved rewrite of my current portfolio in go.
