@@ -1,0 +1,8 @@
+package server
+
+import "time"
+import "strconv"
+
+templ CopyrightComponent() {
+	<div class="copyright">&copy; { strconv.Itoa(time.Now().Year()) }</div>
+}

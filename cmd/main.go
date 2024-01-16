@@ -7,9 +7,9 @@ import (
 	"os"
 	"time"
 
-	v1 "github.com/benni347/novum-portfolio/pkg/server"
+	"github.com/benni347/novum-portfolio/pkg/server"
 	"github.com/benni347/novum-portfolio/pkg/utils"
-	"github.com/labstack/echo/v4"
+	"github.com/gofiber/fiber/v2"
 
 	_ "net/http/pprof"
 
@@ -118,13 +118,14 @@ func runApp(c *cli.Context) {
 		}
 	}()
 
-	router := echo.New()
+	router := fiber.New()
 	if c.Bool("profile") {
 		go func() {
 			utils.Logger.Debug(http.ListenAndServe("localhost:6060", nil))
 		}()
 	}
-	router = v1.NewServer(router)
+
+	router = server.NewServer(router)
 	// defer profile.Start().Stop()
-	utils.LogFatalDefaultFormat(appName, "runApp", http.Serve(ln, router), "http.Serve")
+	utils.LogFatalDefaultFormat(appName, "runApp", router.Listener(ln), "http.Serve")
 }
