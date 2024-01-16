@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"github.com/a-h/templ"
+	"github.com/benni347/novum-portfolio/pkg/sites"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/adaptor"
 	"github.com/gofiber/fiber/v2/middleware/healthcheck"
@@ -23,7 +24,7 @@ type ErrorResponse struct {
 // NewServer creates the new server and sets up the listener
 func NewServer(app *fiber.App) *fiber.App {
 	app.Get("/", func(c *fiber.Ctx) error {
-		return Render(c, IndexComponent("test"))
+		return Render(c, sites.IndexComponent("test"))
 	})
 
 	app.Use(healthcheck.New())
@@ -32,7 +33,7 @@ func NewServer(app *fiber.App) *fiber.App {
 }
 
 func NotFoundMiddleware(c *fiber.Ctx) error {
-	return Render(c, NotFound(), templ.WithStatus(http.StatusNotFound))
+	return Render(c, sites.NotFound(), templ.WithStatus(http.StatusNotFound))
 }
 
 func Render(c *fiber.Ctx, component templ.Component, options ...func(*templ.ComponentHandler)) error {
