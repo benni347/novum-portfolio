@@ -10,6 +10,13 @@ import (
 	"github.com/benni347/novum-portfolio/pkg/server"
 	"github.com/benni347/novum-portfolio/pkg/utils"
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cache"
+	"github.com/gofiber/fiber/v2/middleware/compress"
+	"github.com/gofiber/fiber/v2/middleware/cors"
+	"github.com/gofiber/fiber/v2/middleware/csrf"
+	"github.com/gofiber/fiber/v2/middleware/earlydata"
+	"github.com/gofiber/fiber/v2/middleware/etag"
+	rec "github.com/gofiber/fiber/v2/middleware/recover"
 
 	_ "net/http/pprof"
 
@@ -126,6 +133,13 @@ func runApp(c *cli.Context) {
 	}
 
 	router = server.NewServer(router)
+	router.Use(earlydata.New())
+	router.Use(etag.New())
+	router.Use(compress.New())
+	router.Use(cors.New())
+	router.Use(csrf.New())
+	router.Use(cache.New())
+	router.Use(rec.New())
 	// defer profile.Start().Stop()
 	utils.LogFatalDefaultFormat(appName, "runApp", router.Listener(ln), "http.Serve")
 }
