@@ -1,6 +1,15 @@
 package sites
 
 templ IndexComponent(pageTitle string) {
-	<div>{ pageTitle }</div>
-	@CopyrightComponent()
+	<html>
+		@HeaderComponent("Cedric's Portfolio")
+		@indexBody(pageTitle)
+	</html>
+}
+
+templ indexBody(pageTitle string) {
+	<body>
+		<div>{ pageTitle }</div>
+		@CopyrightComponent()
+	</body>
 }
